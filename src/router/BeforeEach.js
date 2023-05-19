@@ -1,5 +1,7 @@
+import Auth from '/src/auth'
+
 export default (to, from, next) => {
-    if (to.meta.module === 'login') {
+    if (to.meta.module === 'login' || Auth.isLogged()) {
         next()
     } else {
         next({

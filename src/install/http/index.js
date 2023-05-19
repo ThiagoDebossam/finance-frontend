@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
-import env from '../../../env'
+import env from '/env'
 
 const http = axios.create({
     baseURL: env.API_URL,

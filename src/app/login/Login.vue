@@ -6,8 +6,26 @@
                     <v-card-title class="justify-center">Finanças</v-card-title>
                     <v-card-text>
                         <v-form lazy-validation v-model="valid" @submit.prevent="login" ref="form">
-                            <v-text-field placeholder="Digite seu e-mail" class="required-field" outlined label="E-mail" v-model="payload.email" type="email" :rules="required"></v-text-field>
-                            <v-text-field placeholder="Digite sua senha" class="required-field" outlined label="Senha" v-model="payload.password" type="password" :rules="required"></v-text-field>
+                            <v-text-field 
+                                placeholder="Digite seu e-mail"
+                                class="required-field"
+                                outlined label="E-mail"
+                                v-model="payload.email"
+                                type="email"
+                                ref="email"
+                                :rules="required"
+                                ></v-text-field>
+                            <v-text-field 
+                                placeholder="Digite sua senha" 
+                                class="required-field"
+                                outlined
+                                :append-icon="visibility ? 'visibility_off' : 'visibility'"
+                                @click:append="visibility = visibility ? false : true"
+                                label="Senha"
+                                ref="password"
+                                v-model="payload.password"
+                                :type="visibility ? 'text' : 'password'"
+                                :rules="required"></v-text-field>
                             <v-btn :disabled="!valid" class="primary" type="submit" block>Entrar</v-btn>
                         </v-form>
                     </v-card-text>
@@ -17,24 +35,35 @@
     </div>
 </template>
 <script>
+import Auth from '/src/auth'
 export default {
     name: 'LoginComponent',
     data () {
         return {
             payload: {},
             valid: true,
+            visibility: false,
             required: [
                 v => !!v || 'Campo obrigatório'
             ]
         }
     },
+    mounted () {
+        this.$refs.email.focus()
+    },
     methods: {
         login () {
             if (this.$refs.form.validate()) {
-                this.$http('teste')
+                this.$http.post('sign-in', this.payload)
+                    .then(this.afterLogin)
+                    .catch(this.$throwException)
             } else {
                 this.$fnError('Formulário incompleto')
             }
+        },
+        afterLogin ({ data }) {
+            Auth.setSession(data)
+            this.$router.push({name: 'dashboard'})
         }
     }
 }

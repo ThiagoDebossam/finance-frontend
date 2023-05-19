@@ -26,8 +26,24 @@ Vue.mixin({
         $fnError(msg) {
             this.$toast('error', msg)
         },
-        $throwException() {
-            this.$fnError('Erro interno')
+        $throwException(error) {
+            console.log(error)
+            if (!error) {
+                this.$fnError('Erro interno')
+                return false
+            }
+            try {
+                const { response } = error
+                const { data } = response.data
+                if (data) {
+                    const errors = Object.keys(data)
+                    this.$fnError(data[errors[0]])
+                } else if (response.data && response.data.msg) {
+                    this.$fnError(response.data.msg)
+                }
+            } catch (e) {
+                this.$fnError(error)
+            }
         },
         $fnSuccess(msg) {
             this.$toast('success', msg)
