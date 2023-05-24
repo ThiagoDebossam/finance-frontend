@@ -18,11 +18,15 @@ export default {
     //     aux[key] = value
     //     sessionStorage.setItem('_session', base64url.encode(JSON.stringify(aux)))
     // },
-    // getItem(key) {
-    //     if (sessionStorage.getItem('_session')) {
-    //         return JSON.parse(base64url.decode(sessionStorage.getItem('_session')))[key]
-    //     }
-    // },
+    getItem(key) {
+        const session = sessionStorage.getItem('_session')
+        if (session) {
+            return JSON.parse(session)[key]
+        }
+    },
+    getToken () {
+        return sessionStorage.getItem('_token')
+    }
     // removeItem(key) {
     //     return sessionStorage.removeItem(key)
     // },

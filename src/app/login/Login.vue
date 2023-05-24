@@ -29,6 +29,9 @@
                             <v-btn :disabled="!valid" class="primary" type="submit" block>Entrar</v-btn>
                         </v-form>
                     </v-card-text>
+                    <v-card-actions class="mx-3">
+                        <a @click="$router.push({name: 'user.create'})" class="link-sign-up">Não possui cadastro ?</a>
+                    </v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
@@ -42,13 +45,12 @@ export default {
         return {
             payload: {},
             valid: true,
-            visibility: false,
-            required: [
-                v => !!v || 'Campo obrigatório'
-            ]
+            visibility: false
         }
     },
     mounted () {
+        if (Auth.isLogged()) this.$router.push({name: 'dashboard'})
+        this.$refs.password.focus()
         this.$refs.email.focus()
     },
     methods: {
@@ -63,9 +65,11 @@ export default {
         },
         afterLogin ({ data }) {
             Auth.setSession(data)
-            this.$router.push({name: 'dashboard'})
+            this.$nextTick(() => {
+                this.$router.go()
+            })
         }
     }
 }
 </script>
-<style lang="sass">@import "./Login.scss"</style>
+<style lang="sass" scoped>@import "./Login.scss"</style>

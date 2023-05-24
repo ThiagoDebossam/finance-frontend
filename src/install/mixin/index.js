@@ -1,6 +1,6 @@
 import Vue from 'vue'
-
 import Swal from 'sweetalert2'
+import { mapActions } from 'vuex'
 
 const Toast = Swal.mixin({
     toast: true,
@@ -14,7 +14,15 @@ const Toast = Swal.mixin({
     }
 })
 Vue.mixin({
+    data () {
+        return {
+            required: [
+                v => !!v || 'Campo obrigatório'
+            ]
+        }
+    },
     methods: {
+        ...mapActions(['setExpiredSession']),
         $toast(
             icon,
             text) {
@@ -27,13 +35,15 @@ Vue.mixin({
             this.$toast('error', msg)
         },
         $throwException(error) {
-            console.log(error)
             if (!error) {
                 this.$fnError('Erro interno')
                 return false
             }
             try {
                 const { response } = error
+                if (response.status === 401) {
+                    this.setExpiredSession(true)
+                }
                 const { data } = response.data
                 if (data) {
                     const errors = Object.keys(data)

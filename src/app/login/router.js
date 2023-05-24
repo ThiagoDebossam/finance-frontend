@@ -2,7 +2,7 @@ import Login from './Login'
 
 export default [
     {
-        path: '/login',
+        path: '/sign-in',
         name: 'login',
         component: Login,
         meta: {

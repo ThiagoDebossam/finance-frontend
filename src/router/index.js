@@ -5,10 +5,15 @@ import BeforeEach from './BeforeEach'
 
 import Dashboard from '@/app/dashboard/Dashboard' 
 import Login from '@/app/login/router'
+import User from '@/app/user/router'
 
 Vue.use(Router)
 const router = new Router({
     routes: [
+        {
+            path: '*',
+            redirect: '/'
+        },
         {
             path: '/',
             name: '/',
@@ -24,10 +29,7 @@ const router = new Router({
             }
         },
         ...Login,
-        {
-            path: '*',
-            redirect: '/'
-        }
+        ...User
     ]
 })
 

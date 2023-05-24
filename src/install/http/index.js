@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import env from '/env'
+import Auth from '/src/auth'
 
 const http = axios.create({
     baseURL: env.API_URL,
@@ -10,26 +11,25 @@ const http = axios.create({
     }
 })
 
-// const request = {
-//     success: config => {
-//         if (config.data && config.data.hideLoading) {
-//             actions.setLoading(store, false)
-//         } else {
-//             actions.setLoading(store, true)
-//         }
-//         if (Auth.isLogged()) {
-//             config.headers.Authorization = Auth.getItem('userToken')
-//             config.headers.people = Auth.getItem('peopleId')
-//             config.headers.token = Auth.getItem('userToken')
-//         }
-//         return config
-//     },
-//     error: error => {
-//         actions.setLoading(store, false)
-//         return Promise.reject(error)
-//     }
-// }
-// http.interceptors.request.use(request.success, request.error)
+const request = {
+    success: config => {
+        // if (config.data && config.data.hideLoading) {
+        //     actions.setLoading(store, false)
+        // } else {
+        //     actions.setLoading(store, true)
+        // }
+        if (Auth.isLogged()) {
+            const token = Auth.getToken()
+            config.headers.Authorization = `Bearer ${token}`
+        }
+        return config
+    },
+    error: error => {
+        // actions.setLoading(store, false)
+        return Promise.reject(error)
+    }
+}
+http.interceptors.request.use(request.success, request.error)
 
 // const response = {
 //     success: response => {

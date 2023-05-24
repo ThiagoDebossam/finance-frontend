@@ -1,11 +1,11 @@
 import Auth from '/src/auth'
 
 export default (to, from, next) => {
-    if (to.meta.module === 'login' || Auth.isLogged()) {
+    if (!to.meta.auth|| Auth.isLogged()) {
         next()
     } else {
         next({
-            path: '/login',
+            path: '/sign-in',
             query: { redirect: to.fullPath }
         })
     }
