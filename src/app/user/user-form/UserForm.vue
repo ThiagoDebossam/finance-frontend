@@ -60,7 +60,7 @@
 </template>
 <script>
 export default {
-    name: 'UserFormComponent',
+    name: 'UserForm',
     data () {
         return {
             payload: {},

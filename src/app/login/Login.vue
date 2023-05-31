@@ -58,7 +58,7 @@
 <script>
 import Auth from '/src/auth'
 export default {
-    name: 'LoginComponent',
+    name: 'Login',
     data () {
         return {
             payload: {},

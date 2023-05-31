@@ -52,6 +52,8 @@ Vue.mixin({
                     this.$fnError(data[errors[0]])
                 } else if (response.data && response.data.msg) {
                     this.$fnError(response.data.msg)
+                } else {
+                    throw 1;
                 }
             } catch (e) {
                 this.$fnError('Erro interno!')

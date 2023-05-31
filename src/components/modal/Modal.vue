@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-    name: 'ModalComponent',
+    name: 'Modal',
     props: {
         title: {
             type: String,

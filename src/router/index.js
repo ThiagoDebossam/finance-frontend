@@ -6,6 +6,7 @@ import BeforeEach from './BeforeEach'
 import Dashboard from '@/app/dashboard/Dashboard' 
 import Login from '@/app/login/router'
 import User from '@/app/user/router'
+import ForgotPassword from '@/app/forgot-password/router'
 
 Vue.use(Router)
 const router = new Router({
@@ -29,7 +30,8 @@ const router = new Router({
             }
         },
         ...Login,
-        ...User
+        ...User,
+        ...ForgotPassword
     ]
 })
 

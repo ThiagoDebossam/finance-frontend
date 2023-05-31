@@ -34,7 +34,7 @@
 import Auth from '/src/auth'
 
 export default {
-    name: 'ToolbarComponent',
+    name: 'Toolba',
     computed: {
         name () {
             return Auth.getItem('name')

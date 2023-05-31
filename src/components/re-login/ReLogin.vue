@@ -37,7 +37,7 @@ import Auth from '/src/auth'
 import { mapActions } from 'vuex'
 
 export default {
-    name: 'ReLoginComponent',
+    name: 'ReLogin',
     data () {
         return {
             showModal: true,
