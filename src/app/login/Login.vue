@@ -122,7 +122,6 @@ export default {
             this.loading = false
             if (this.processForgotPassword) this.processForgotPassword = false
             this.$fnSuccess('E-mail enviado')
-            console.log(data)
         }
     }
 }

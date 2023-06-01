@@ -83,6 +83,9 @@ export default {
         },
         afterCreate () {
             this.$router.push({name: 'login'})
+            this.$nextTick(() => {
+                this.$router.go()
+            })
         }
     }
 }

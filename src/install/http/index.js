@@ -21,6 +21,7 @@ const request = {
         if (Auth.isLogged()) {
             const token = Auth.getToken()
             config.headers.Authorization = `Bearer ${token}`
+            config.headers.user_id = Auth.getItem('id')
         }
         return config
     },

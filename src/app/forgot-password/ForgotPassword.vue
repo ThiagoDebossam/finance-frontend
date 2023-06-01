@@ -59,16 +59,23 @@ export default {
     },
     methods: {
         async recoverPassword () {
-            this.loading = true
-            await this.$http.post(`recover-password`, this.payload)
-                .then(this.afterRecoverPassword)
-                .catch(this.$throwException)
-            this.loading = false
+            if (this.$refs.form.validate()) {
+                this.loading = true
+                await this.$http.post(`recover-password`, this.payload)
+                    .then(this.afterRecoverPassword)
+                    .catch(this.$throwException)
+                this.loading = false
+            } else {
+                this.$fnError('Formulário incompleto')
+            }
         },
         afterRecoverPassword ({ data }) {
             this.loading = false
             this.$fnSuccess('Senha alterada')
-            console.log(data)
+            this.$router.push({name: 'login'})
+            this.$nextTick(() => {
+                this.$router.go()
+            })
         }
     }
 }
