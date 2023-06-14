@@ -1,7 +1,7 @@
 <template>
     <v-card color="grey lighten-4" flat tile>
         <v-toolbar dense color="#0c6c00">
-            <v-app-bar-nav-icon color="#fff"></v-app-bar-nav-icon>
+            <!-- <v-app-bar-nav-icon color="#fff"></v-app-bar-nav-icon> -->
 
             <v-toolbar-title class="title">Olá, {{ name }}</v-toolbar-title>
 
