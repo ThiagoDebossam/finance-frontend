@@ -33,7 +33,7 @@ const router = new Router({
         ...Login,
         ...User,
         ...ForgotPassword,
-        // ...Account
+        ...Account
     ]
 })
 

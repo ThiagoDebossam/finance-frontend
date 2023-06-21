@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Swal from 'sweetalert2'
 import { mapActions } from 'vuex'
+import querystring from 'querystring'
 
 const Toast = Swal.mixin({
     toast: true,
@@ -33,6 +34,9 @@ Vue.mixin({
         },
         $fnError(msg) {
             this.$toast('error', msg)
+        },
+        $urlEncode(payload) {
+            return querystring.encode(payload)
         },
         $throwException(error) {
             console.error(error)

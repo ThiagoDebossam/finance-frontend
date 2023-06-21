@@ -7,12 +7,17 @@
             </v-flex>
             <div v-else>
                 <v-layout row wrap>
-                    <v-flex xs12 sm6 md6 lg4 xl3 pa-3 v-for="(account, index) in accounts" :key="index">
-                        <div class="card-account" :style="`background-color: ${getRandomColor()}`">
+                    <v-flex xs12 sm6 md6 lg4 xl3 pa-3 v-for="(account, index) in accounts" :key="index" @click="goAccount(account.id)">
+                        <div class="card-account" :style="`background-color: ${account.background}; color: ${account.color}`">
                             {{account.name}}
                         </div>
                     </v-flex>
                 </v-layout>
+                <v-btn fab dark color="#0c6c00" class="button-float" @click="createAccount = true">
+                    <v-icon dark>
+                        add
+                    </v-icon>
+                </v-btn>
             </div>
         </v-container>
         <AccountForm v-if="createAccount" @close="closeForm" />
@@ -21,6 +26,7 @@
 <script>
 
 import AccountForm from '@/app/account/AccountForm'
+import tinycolor from 'tinycolor2'
 
 export default {
     name: 'Dashboard',
@@ -49,6 +55,10 @@ export default {
         },
         afterGetAccounts ({ data }) {
             this.accounts = data
+            this.accounts.forEach(account => {
+                account.background = this.getRandomColor()
+                account.color = tinycolor(account.background).isLight() ? 'white' : 'black'
+            })
         },
         closeForm () {
             this.createAccount = false
@@ -64,6 +74,9 @@ export default {
             }
 
             return color
+        },
+        goAccount (id) {
+            this.$router.push({name: 'account-month', params: { id }})
         }
     }
 }
