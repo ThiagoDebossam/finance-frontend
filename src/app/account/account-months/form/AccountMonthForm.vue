@@ -2,7 +2,7 @@
     <modal-component v-if="showModal" max-width="400" title="Criar vínculo para conta" show-close @close="closeModal">
         <v-card-text slot="content">
             <v-container>
-                <v-form lazy-validation v-model="valid" @submit.prevent="createAccount" ref="form">
+                <v-form lazy-validation v-model="valid" @submit.prevent="createAccountMonth" ref="form">
                     <v-text-field
                         placeholder="Digite o ano" 
                         class="required-field"
@@ -15,7 +15,8 @@
                         placeholder="Selecione" 
                         class="required-field"
                         outlined
-                        :items="[]"
+                        disabled
+                        :items="accounts"
                         item-text="name"
                         item-value="id"
                         label="Conta"
@@ -25,8 +26,8 @@
                         placeholder="Selecione" 
                         class="required-field"
                         outlined
-                        :items="[]"
-                        item-text="name"
+                        :items="months"
+                        item-text="month"
                         item-value="id"
                         label="Mês"
                         v-model="payload.month_id"
@@ -45,40 +46,55 @@
     </modal-component>
 </template>
 <script>
+import Auth from '/src/auth'
 export default {
     name: 'AccountMonthForm',
     data () {
         return {
             showModal: true,
             payload: {
-                year: new Date().getFullYear()
+                year: new Date().getFullYear(),
+                account_id: this.$route.params.id
             },
+            accounts: [],
+            months: Auth.getItem('months'),
             valid: true,
             loading: false
         }
     },
     mounted () {
+        this.getAccounts()
     },
     methods: {
-        async createAccount () {
+        createAccountMonth () {
             if (this.$refs.form.validate()) {
                 this.loading = true
-                await this.$http.post('account', {name: this.name})
-                    .then(this.afterCreateAccount)
+                this.$http.post('expenses-accounts-month', this.payload)
+                    .then(this.afterCreateAccountMonth)
                     .catch(this.$throwException)
-                this.loading = false
+                    .finaly(() => {
+                        this.loading = false
+                    })
             } else {
                 this.$fnError('Formulário incompleto')
             }
         },
-        afterCreateAccount ({ data }) {
+        afterCreateAccountMonth ({ data }) {
             this.loading = false
             this.$fnSuccess('Conta criada')
             this.closeModal()
         },
         closeModal () {
             this.$emit('close')
-        }
+        },
+        getAccounts () {
+            this.$http('/account')
+                .then(this.afterGetAccounts)
+                .catch(this.$throwException)
+        },
+        afterGetAccounts ({ data }) {
+            this.accounts = data
+        },
     }
 }
 </script>

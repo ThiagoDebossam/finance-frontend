@@ -57,7 +57,7 @@ export default {
             this.accounts = data
             this.accounts.forEach(account => {
                 account.background = this.getRandomColor()
-                account.color = tinycolor(account.background).isLight() ? 'white' : 'black'
+                account.color = tinycolor(account.background).isLight() ? 'black' : 'white'
             })
         },
         closeForm () {
